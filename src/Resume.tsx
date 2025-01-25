@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 const resumeData = {
   name: "Usama Ansari",
   title: "Software Engineer",
-  summary: "Results-driven software engineer with 10.5 years of experience in designing and delivering enterprise-scale applications on cloud infrastructure. Skilled in C#, JavaScript, and Azure technologies. Proven success in implementing innovative solutions, including a Server-to-Tor Link Failure Detection System and Streaming Telemetry for real-time analytics. Strong problem-solving and collaboration skills, dedicated to continuous learning and staying up-to-date with industry trends.",
+  summary: "Results-driven software engineer with 11 years of experience in designing and delivering enterprise-scale applications on cloud infrastructure. Skilled in C#, JavaScript, and Azure technologies. Proven success in implementing innovative solutions, including a Server-to-Tor Link Failure Detection System and Streaming Telemetry for real-time analytics. Strong problem-solving and collaboration skills, dedicated to continuous learning and staying up-to-date with industry trends.",
   contact: {
     email: "usmslm102@gmail.com",
     linkedIn: "https://www.linkedin.com/in/usamaansari/",
@@ -74,7 +74,7 @@ const Resume = () => {
                   <p className="text-sm sm:text-xl text-gray-500">{resumeData.title}</p>
                 </div>
                 <div>
-                  <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-lg shadow-lg hover:from-blue-600 hover:to-indigo-600">
+                  <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3">
                     Download Resume
                   </Button>
                 </div>
