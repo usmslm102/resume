@@ -86,10 +86,10 @@ const Resume = () => {
 
               <div className="mt-8">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Contact</h2>
-                <div className="grid text-sm grid-cols-1 sm:grid-cols-2 gap-4">
-                  <p><Mail />  <a href={`mailto:${resumeData.contact.email}`} className="text-blue-600 hover:underline">{resumeData.contact.email}</a></p>
-                  <p><Linkedin />  <a href={resumeData.contact.linkedIn} className="text-blue-600 hover:underline">@usamaansari</a></p>
-                  <p><Github />  <a href={resumeData.contact.github} className="text-blue-600 hover:underline">@usmslm102</a></p>
+                <div className="flex items-center gap-2">
+                  <p className="flex items-center"><Mail />  <a href={`mailto:${resumeData.contact.email}`} className="text-blue-600 hover:underline">{resumeData.contact.email}</a></p>
+                  <p className="flex items-center"><Linkedin />  <a href={resumeData.contact.linkedIn} className="text-blue-600 hover:underline">@usamaansari</a></p>
+                  <p className="flex items-center"><Github />  <a href={resumeData.contact.github} className="text-blue-600 hover:underline">@usmslm102</a></p>
                 </div>
               </div>
 
