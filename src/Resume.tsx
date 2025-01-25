@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { DownloadIcon, Github, Linkedin, LinkedinIcon, Mail } from "lucide-react";
 
 const resumeData = {
   name: "Usama Ansari",
@@ -75,7 +76,7 @@ const Resume = () => {
                 </div>
                 <div>
                   <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3">
-                    Download Resume
+                    <DownloadIcon />
                   </Button>
                 </div>
               </div>
@@ -86,9 +87,9 @@ const Resume = () => {
               <div className="mt-8">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Contact</h2>
                 <div className="grid text-sm grid-cols-1 sm:grid-cols-2 gap-4">
-                  <p>Email: <a href={`mailto:${resumeData.contact.email}`} className="text-blue-600 hover:underline">{resumeData.contact.email}</a></p>
-                  <p>LinkedIn: <a href={resumeData.contact.linkedIn} className="text-blue-600 hover:underline">Profile</a></p>
-                  <p>GitHub: <a href={resumeData.contact.github} className="text-blue-600 hover:underline">Profile</a></p>
+                  <p><Mail />  <a href={`mailto:${resumeData.contact.email}`} className="text-blue-600 hover:underline">{resumeData.contact.email}</a></p>
+                  <p><Linkedin />  <a href={resumeData.contact.linkedIn} className="text-blue-600 hover:underline">Profile</a></p>
+                  <p><Github />  <a href={resumeData.contact.github} className="text-blue-600 hover:underline">Profile</a></p>
                 </div>
               </div>
 
