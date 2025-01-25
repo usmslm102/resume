@@ -60,14 +60,14 @@ const Resume = () => {
   };
 
   return (
-    <div className="min-h-screen p-2 sm:p-8 md:p-0 bg-gradient-to-r from-blue-50 via-white to-gray-100 text-sm sm:text-base">
+    <div className="min-h-screen p-2 sm:px-8 sm:py-4 md:p-0 bg-gradient-to-r from-blue-50 via-white to-gray-100 text-sm sm:text-base">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Card className="sm:p-8 p-2 shadow-lg rounded-2xl border border-gray-200 bg-white">
+          <Card className="sm:px-8 sm:py-4 p-2 shadow-lg rounded-2xl border border-gray-200 bg-white">
             <CardContent>
               <div className="flex items-center justify-between mb-8">
                 <div>
@@ -87,15 +87,15 @@ const Resume = () => {
               <div className="mt-8">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Contact</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <p className="flex items-center"><Mail />  <a href={`mailto:${resumeData.contact.email}`} className="text-blue-600 hover:underline">{resumeData.contact.email}</a></p>
-                  <p className="flex items-center"><Linkedin />  <a href={resumeData.contact.linkedIn} className="text-blue-600 hover:underline">@usamaansari</a></p>
-                  <p className="flex items-center"><Github />  <a href={resumeData.contact.github} className="text-blue-600 hover:underline">@usmslm102</a></p>
+                  <p className="flex items-center"><Mail />  <a href={`mailto:${resumeData.contact.email}`} target="_blank" className=" pl-2 text-blue-600 hover:underline">{resumeData.contact.email}</a></p>
+                  <p className="flex items-center"><Linkedin />  <a href={resumeData.contact.linkedIn} target="_blank" className="pl-2 text-blue-600 hover:underline">@usamaansari</a></p>
+                  <p className="flex items-center"><Github />  <a href={resumeData.contact.github} target="_blank" className="pl-2 text-blue-600 hover:underline">@usmslm102</a></p>
                 </div>
               </div>
 
               <div className="mt-8">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Skills</h2>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                   <div>
                     <h3 className="text-lg font-bold text-gray-700">Languages</h3>
                     <ul className="list-disc list-inside text-gray-600 mt-2">
