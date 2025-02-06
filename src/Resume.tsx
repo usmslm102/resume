@@ -75,7 +75,7 @@ const Resume = () => {
                   <p className="text-sm sm:text-xl text-gray-500">{resumeData.title}</p>
                 </div>
                 <div>
-                  <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3">
+                  <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3" aria-label="Download Resume">
                     <DownloadIcon />
                   </Button>
                 </div>
