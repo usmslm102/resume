@@ -2,8 +2,38 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { DownloadIcon, Github, Linkedin, Mail } from "lucide-react";
+import { FC } from "react";
 
-const resumeData = {
+interface ResumeData {
+  name: string;
+  title: string;
+  summary: string;
+  contact: {
+    email: string;
+    linkedIn: string;
+    github: string;
+  };
+  skills: {
+    languages: string[];
+    webTechnologies: string[];
+    cloudTechnologies: string[];
+    tools: string[];
+  };
+  experience: {
+    title: string;
+    company: string;
+    duration: string;
+    location: string;
+    details: string[];
+  }[];
+  education: {
+    degree: string;
+    institution: string;
+    graduationYear: string;
+  }[];
+}
+
+const resumeData: ResumeData = {
   name: "Usama Ansari",
   title: "Software Engineer",
   summary: "Results-driven software engineer with 11 years of experience in designing and delivering enterprise-scale applications on cloud infrastructure. Skilled in C#, JavaScript, and Azure technologies. Proven success in implementing innovative solutions, including a Server-to-Tor Link Failure Detection System and Streaming Telemetry for real-time analytics. Strong problem-solving and collaboration skills, dedicated to continuous learning and staying up-to-date with industry trends.",
@@ -51,7 +81,16 @@ const resumeData = {
   ]
 };
 
-const Resume = () => {
+const ContactLink: FC<{ href: string; label: string; icon: JSX.Element }> = ({ href, label, icon }) => (
+  <p className="flex items-center">
+    {icon}
+    <a href={href} target="_blank" rel="noopener noreferrer" className="pl-2 text-blue-600 hover:underline" aria-label={label}>
+      {label}
+    </a>
+  </p>
+);
+
+const Resume: FC = () => {
   const downloadResume = () => {
     const link = document.createElement("a");
     link.href = "/Usama_Ansari_11yrs.pdf"; // Ensure the PDF is in the public directory
@@ -87,9 +126,9 @@ const Resume = () => {
               <div className="mt-8">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Contact</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <p className="flex items-center"><Mail />  <a href={`mailto:${resumeData.contact.email}`} target="_blank" className=" pl-2 text-blue-600 hover:underline">{resumeData.contact.email}</a></p>
-                  <p className="flex items-center"><Linkedin />  <a href={resumeData.contact.linkedIn} target="_blank" className="pl-2 text-blue-600 hover:underline">@usamaansari</a></p>
-                  <p className="flex items-center"><Github />  <a href={resumeData.contact.github} target="_blank" className="pl-2 text-blue-600 hover:underline">@usmslm102</a></p>
+                  <ContactLink href={`mailto:${resumeData.contact.email}`} label={resumeData.contact.email} icon={<Mail />} />
+                  <ContactLink href={resumeData.contact.linkedIn} label="@usamaansari" icon={<Linkedin />} />
+                  <ContactLink href={resumeData.contact.github} label="@usmslm102" icon={<Github />} />
                 </div>
               </div>
 
