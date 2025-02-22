@@ -214,7 +214,7 @@ const Resume: FC = () => {
                     className="grid grid-cols-2 md:grid-cols-4 gap-6"
                     variants={containerVariants}
                   >
-                    {Object.entries(resumeData.skills).map(([category, skills], index) => (
+                    {Object.entries(resumeData.skills).map(([category, skills]) => (
                       <motion.div
                         key={category}
                         variants={sectionVariants}
