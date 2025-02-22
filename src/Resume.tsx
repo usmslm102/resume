@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { DownloadIcon, Github, Linkedin, Mail } from "lucide-react";
 import { FC } from "react";
 
@@ -82,12 +82,18 @@ const resumeData: ResumeData = {
 };
 
 const ContactLink: FC<{ href: string; label: string; icon: JSX.Element }> = ({ href, label, icon }) => (
-  <p className="flex items-center">
-    {icon}
+  <motion.p 
+    className="flex items-center"
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+  >
+    <motion.span whileHover={{ rotate: 15 }}>
+      {icon}
+    </motion.span>
     <a href={href} target="_blank" rel="noopener noreferrer" className="pl-2 text-blue-600 hover:underline" aria-label={label}>
       {label}
     </a>
-  </p>
+  </motion.p>
 );
 
 const Resume: FC = () => {
@@ -98,106 +104,185 @@ const Resume: FC = () => {
     link.click();
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        type: "spring",
+        duration: 0.6
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const nameVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.3 }
+    }
+  };
+
   return (
     <div className="min-h-screen p-2 sm:px-8 sm:py-4 md:p-0 bg-gradient-to-r from-blue-50 via-white to-gray-100 text-sm sm:text-base">
-      <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+      <AnimatePresence>
+        <motion.div 
+          className="max-w-4xl mx-auto"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
         >
-          <Card className="sm:px-8 sm:py-4 p-2 shadow-lg rounded-2xl border border-gray-200 bg-white">
-            <CardContent>
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h1 className="text-xl sm:text-4xl font-bold text-gray-800">{resumeData.name}</h1>
-                  <p className="text-sm sm:text-xl text-gray-500">{resumeData.title}</p>
-                </div>
-                <div>
-                  <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3" aria-label="Download Resume">
-                    <DownloadIcon />
-                  </Button>
-                </div>
-              </div>
-              <div className="text-center mb-4">
-                <p className="mt-2 text-left text-gray-600 sm:text-sm text-xs leading-relaxed">{resumeData.summary}</p>
-              </div>
+          <motion.div layout>
+            <Card className="sm:px-8 sm:py-4 p-2 shadow-lg rounded-2xl border border-gray-200 bg-white overflow-hidden">
+              <CardContent>
+                <motion.div 
+                  className="flex items-center justify-between mb-8"
+                  variants={headerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <motion.div variants={nameVariants} layout>
+                    <motion.h1 
+                      className="text-xl sm:text-4xl font-bold text-gray-800"
+                      variants={nameVariants}
+                      layout
+                    >
+                      {resumeData.name}
+                    </motion.h1>
+                    <motion.p 
+                      className="text-sm sm:text-xl text-gray-500"
+                      variants={nameVariants}
+                      layout
+                    >
+                      {resumeData.title}
+                    </motion.p>
+                  </motion.div>
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3" aria-label="Download Resume">
+                      <motion.span
+                        animate={{ y: [0, -2, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <DownloadIcon />
+                      </motion.span>
+                    </Button>
+                  </motion.div>
+                </motion.div>
 
-              <div className="mt-8">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Contact</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  <ContactLink href={`mailto:${resumeData.contact.email}`} label={resumeData.contact.email} icon={<Mail />} />
-                  <ContactLink href={resumeData.contact.linkedIn} label="@usamaansari" icon={<Linkedin />} />
-                  <ContactLink href={resumeData.contact.github} label="@usmslm102" icon={<Github />} />
-                </div>
-              </div>
+                <motion.div variants={sectionVariants} className="text-center mb-4">
+                  <p className="mt-2 text-left text-gray-600 sm:text-sm text-xs leading-relaxed">{resumeData.summary}</p>
+                </motion.div>
 
-              <div className="mt-8">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Skills</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-700">Languages</h3>
-                    <ul className="list-disc list-inside text-gray-600 mt-2">
-                      {resumeData.skills.languages.map((skill, index) => (
-                        <li className="text-sm" key={index}>{skill}</li>
-                      ))}
-                    </ul>
+                <motion.div variants={sectionVariants} className="mt-8">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Contact</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <ContactLink href={`mailto:${resumeData.contact.email}`} label={resumeData.contact.email} icon={<Mail />} />
+                    <ContactLink href={resumeData.contact.linkedIn} label="@usamaansari" icon={<Linkedin />} />
+                    <ContactLink href={resumeData.contact.github} label="@usmslm102" icon={<Github />} />
                   </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-700">Web Technologies</h3>
-                    <ul className="list-disc list-inside text-gray-600 mt-2">
-                      {resumeData.skills.webTechnologies.map((skill, index) => (
-                        <li className="text-sm" key={index}>{skill}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-700">Cloud Technologies</h3>
-                    <ul className="list-disc list-inside text-gray-600 mt-2">
-                      {resumeData.skills.cloudTechnologies.map((skill, index) => (
-                        <li className="text-sm" key={index}>{skill}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-gray-700">Tools</h3>
-                    <ul className="list-disc list-inside text-gray-600 mt-2">
-                      {resumeData.skills.tools.map((skill, index) => (
-                        <li className="text-sm" key={index}>{skill}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
+                </motion.div>
 
-              <div className="mt-10">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Experience</h2>
-                {resumeData.experience.map((job, index) => (
-                  <div key={index} className="mb-6">
-                    <h3 className="text-xl font-bold text-gray-700">{job.title} - {job.company}</h3>
-                    <p className="text-sm text-gray-500 mb-2">{job.duration} | {job.location}</p>
-                    <ul className="list-disc list-inside text-gray-600">
-                      {job.details.map((detail, i) => (
-                        <li className="text-sm" key={i}>{detail}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+                <motion.div variants={sectionVariants} className="mt-8">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Skills</h2>
+                  <motion.div 
+                    className="grid grid-cols-2 md:grid-cols-4 gap-6"
+                    variants={containerVariants}
+                  >
+                    {Object.entries(resumeData.skills).map(([category, skills], index) => (
+                      <motion.div
+                        key={category}
+                        variants={sectionVariants}
+                        whileHover={{ scale: 1.02 }}
+                        className="skill-category"
+                      >
+                        <h3 className="text-lg font-bold text-gray-700">{category}</h3>
+                        <ul className="list-disc list-inside text-gray-600 mt-2">
+                          {skills.map((skill, i) => (
+                            <motion.li
+                              key={i}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: i * 0.1 }}
+                              className="text-sm"
+                            >
+                              {skill}
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </motion.div>
 
-              <div className="mt-10">
-                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Education</h2>
-                {resumeData.education.map((edu, index) => (
-                  <div key={index} className="mb-4">
-                    <h3 className="text-xl font-bold text-gray-700">{edu.degree}</h3>
-                    <p className="text-sm text-gray-500">{edu.institution} - {edu.graduationYear}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                <motion.div variants={sectionVariants} className="mt-10">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Experience</h2>
+                  {resumeData.experience.map((job, index) => (
+                    <motion.div
+                      key={index}
+                      className="mb-6"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 }}
+                    >
+                      <h3 className="text-xl font-bold text-gray-700">{job.title} - {job.company}</h3>
+                      <p className="text-sm text-gray-500 mb-2">{job.duration} | {job.location}</p>
+                      <ul className="list-disc list-inside text-gray-600">
+                        {job.details.map((detail, i) => (
+                          <li className="text-sm" key={i}>{detail}</li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                <motion.div variants={sectionVariants} className="mt-10">
+                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Education</h2>
+                  {resumeData.education.map((edu, index) => (
+                    <motion.div
+                      key={index}
+                      className="mb-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 }}
+                    >
+                      <h3 className="text-xl font-bold text-gray-700">{edu.degree}</h3>
+                      <p className="text-sm text-gray-500">{edu.institution} - {edu.graduationYear}</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </motion.div>
-      </div>
+      </AnimatePresence>
     </div>
   );
 };
