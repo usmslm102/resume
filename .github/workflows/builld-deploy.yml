@@ -19,8 +19,8 @@ jobs:
 
     - name: Build resume
       run: |
-        npm install
-        npm run build
+        pnpm install
+        pnpm run build
         echo 'resume.usamaansari.com' > ./dist/CNAME
 
     - name: Deploy to GitHub Pages
