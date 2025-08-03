@@ -57,7 +57,7 @@
 
     --radius: 0.5rem
   }
-  .dark {
+    .dark {
 
     --background: 20 14.3% 4.1%;
 
@@ -108,6 +108,15 @@
     --chart-5: 340 75% 55%
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 
 @layer base {
   * {

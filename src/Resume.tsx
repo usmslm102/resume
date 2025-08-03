@@ -115,8 +115,12 @@ const Resume: FC = () => {
     }
   };
 
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
+   const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const sectionVariants = prefersReduced ? {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.2 } }
+  } : {    hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
@@ -127,8 +131,10 @@ const Resume: FC = () => {
     }
   };
 
-  const headerVariants = {
+   const headerVariants = prefersReduced ? {
     hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.2 } }
+  } : {    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
@@ -138,8 +144,10 @@ const Resume: FC = () => {
     }
   };
 
-  const nameVariants = {
+   const nameVariants = prefersReduced ? {
     hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.2 } }
+  } : {    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: { duration: 0.3 }
@@ -147,7 +155,7 @@ const Resume: FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-2 sm:px-8 sm:py-4 md:p-0 bg-gradient-to-r from-blue-50 via-white to-gray-100 text-sm sm:text-base">
+    <div className="min-h-screen p-4 sm:px-8 sm:py-6 md:p-8 bg-gradient-to-br from-white via-blue-50 to-white text-sm sm:text-base">
       <AnimatePresence>
         <motion.div 
           className="max-w-4xl mx-auto"
@@ -156,35 +164,32 @@ const Resume: FC = () => {
           variants={containerVariants}
         >
           <motion.div layout>
-            <Card className="sm:px-8 sm:py-4 p-2 shadow-lg rounded-2xl border border-gray-200 bg-white overflow-hidden">
+            <Card className="sm:px-10 sm:py-6 p-4 shadow-xl rounded-3xl border border-gray-100 bg-white/80 backdrop-blur-md overflow-hidden">
               <CardContent>
-                <motion.div 
-                  className="flex items-center justify-between mb-8"
-                  variants={headerVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  <motion.div variants={nameVariants} layout>
+                  <motion.div 
+                    className="flex items-center justify-between mb-8"
+                    variants={headerVariants}
+                    initial="hidden"
+                    animate="visible"
+                  >                  <motion.div variants={nameVariants} layout>
                     <motion.h1 
-                      className="text-xl sm:text-4xl font-bold text-gray-800"
+                      className="text-2xl sm:text-5xl font-semibold tracking-tight text-gray-900"
                       variants={nameVariants}
                       layout
-                    >
-                      {resumeData.name}
+                    >                      {resumeData.name}
                     </motion.h1>
                     <motion.p 
-                      className="text-sm sm:text-xl text-gray-500"
+                      className="text-xs sm:text-lg text-gray-500"
                       variants={nameVariants}
                       layout
-                    >
-                      {resumeData.title}
+                    >                      {resumeData.title}
                     </motion.p>
                   </motion.div>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3" aria-label="Download Resume">
+                    <Button onClick={downloadResume} className="sm:text-sm sm:px-3 sm:py-2 px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-shadow" aria-label="Download Resume">
                       <motion.span
                         animate={{ y: [0, -2, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
@@ -195,13 +200,21 @@ const Resume: FC = () => {
                   </motion.div>
                 </motion.div>
 
-                <motion.div variants={sectionVariants} className="text-center mb-4">
-                  <p className="mt-2 text-left text-gray-600 sm:text-sm text-xs leading-relaxed">{resumeData.summary}</p>
+                <motion.div variants={sectionVariants} className="text-center mb-4">                                    <p className="mt-2 text-left text-gray-600 sm:text-base text-sm leading-relaxed">{resumeData.summary}</p>
                 </motion.div>
 
                 <motion.div variants={sectionVariants} className="mt-8">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Contact</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <h2 className="text-xl sm:text-2xl font-medium text-gray-900 pb-2 mb-6 relative inline-block">
+                    Contact
+                    <motion.span
+                      layoutId="underline"
+                      className="absolute left-0 -bottom-1 h-0.5 bg-blue-500/60"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: '100%' }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  </h2>                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <ContactLink href={`mailto:${resumeData.contact.email}`} label={resumeData.contact.email} icon={<Mail />} />
                     <ContactLink href={resumeData.contact.linkedIn} label="@usamaansari" icon={<Linkedin />} />
                     <ContactLink href={resumeData.contact.github} label="@usmslm102" icon={<Github />} />
@@ -209,10 +222,18 @@ const Resume: FC = () => {
                 </motion.div>
 
                 <motion.div variants={sectionVariants} className="mt-8">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Skills</h2>
-                  <motion.div 
-                    className="grid grid-cols-2 md:grid-cols-4 gap-6"
-                    variants={containerVariants}
+                                    <h2 className="text-xl sm:text-2xl font-medium text-gray-900 pb-2 mb-6 relative inline-block">
+                    Skills
+                    <motion.span
+                      layoutId="underline"
+                      className="absolute left-0 -bottom-1 h-0.5 bg-blue-500/60"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: '100%' }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  </h2>                  <motion.div 
+                    className="grid grid-cols-2 md:grid-cols-4 gap-6"                    variants={containerVariants}
                   >
                     {Object.entries(resumeData.skills).map(([category, skills]) => (
                       <motion.div
@@ -221,16 +242,14 @@ const Resume: FC = () => {
                         whileHover={{ scale: 1.02 }}
                         className="skill-category"
                       >
-                        <h3 className="text-lg font-bold text-gray-700">{category}</h3>
-                        <ul className="list-disc list-inside text-gray-600 mt-2">
-                          {skills.map((skill, i) => (
+                                                <h3 className="text-sm uppercase tracking-wide text-gray-500">{category}</h3>
+                        <ul className="list-disc list-inside text-gray-700 mt-2 space-y-1">                          {skills.map((skill, i) => (
                             <motion.li
                               key={i}
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: i * 0.1 }}
-                              className="text-sm"
-                            >
+                              className="text-sm"                            >
                               {skill}
                             </motion.li>
                           ))}
@@ -241,8 +260,17 @@ const Resume: FC = () => {
                 </motion.div>
 
                 <motion.div variants={sectionVariants} className="mt-10">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Experience</h2>
-                  {resumeData.experience.map((job, index) => (
+                                    <h2 className="text-xl sm:text-2xl font-medium text-gray-900 pb-2 mb-6 relative inline-block">
+                    Experience
+                    <motion.span
+                      layoutId="underline"
+                      className="absolute left-0 -bottom-1 h-0.5 bg-blue-500/60"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: '100%' }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  </h2>                  {resumeData.experience.map((job, index) => (
                     <motion.div
                       key={index}
                       className="mb-6"
@@ -253,18 +281,34 @@ const Resume: FC = () => {
                     >
                       <h3 className="text-xl font-bold text-gray-700">{job.title} - {job.company}</h3>
                       <p className="text-sm text-gray-500 mb-2">{job.duration} | {job.location}</p>
-                      <ul className="list-disc list-inside text-gray-600">
-                        {job.details.map((detail, i) => (
-                          <li className="text-sm" key={i}>{detail}</li>
-                        ))}
+                      <ul className="list-disc list-inside text-gray-700 space-y-1">                                                {job.details.map((detail, i) => (
+                          <motion.li 
+                            className="text-sm"
+                            key={i}
+                            initial={{ opacity: 0, x: -8 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.08 }}
+                          >
+                            {detail}
+                          </motion.li>                        ))}
                       </ul>
                     </motion.div>
                   ))}
                 </motion.div>
 
                 <motion.div variants={sectionVariants} className="mt-10">
-                  <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 border-b pb-2 mb-4">Education</h2>
-                  {resumeData.education.map((edu, index) => (
+                  <h2 className="text-xl sm:text-2xl font-medium text-gray-900 pb-2 mb-6 relative inline-block">
+                    Education
+                    <motion.span
+                      layoutId="underline"
+                      className="absolute left-0 -bottom-1 h-0.5 bg-blue-500/60"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: '100%' }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  </h2>                  {resumeData.education.map((edu, index) => (
                     <motion.div
                       key={index}
                       className="mb-4"
